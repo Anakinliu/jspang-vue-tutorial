@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-size: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        Vue.createApp({
+            template: '<div>{{ this.res }}</div>',
+            data() {
+                return {
+                    count: 0,
+                    arr: ['😀','👨‍🦳','👼'],
+                    res: "😀",
+                }
+            },
+            mounted() {
+                // 此方法属于声明周期函数,当页面加载渲染完成时,自动被执行
+                console.log('页面加载完成后自动执行' + this.count);
+                setInterval(() => {
+                    this.count = (this.count + 1) % 3;
+                    this.res += this.arr[this.count];
+                }, 0)
+            },
+        }).mount("#app")
+    </script>
+</body>
+
+</html>
