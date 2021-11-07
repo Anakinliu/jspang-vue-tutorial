@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9_生命周期</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        let app = Vue.createApp({
+            data() {  // 定义数据层,即mvvm的model
+                return {
+                    player: 'tom',
+                    countdown: 5,
+                }
+            },
+            template: `
+                <div>
+                    <button v-on:click="changeH1Btn">添加 {{countdown}}</button>
+                    <h1>{{player}}</h1>
+                </div>`,  // 定义模版层,即mvvm的view
+            beforeCreate() {
+                // 这里访问不到this.countdown
+                console.log('1 beforeCreate ',this.countdown, document.getElementById('app').innerHTML);
+            },
+            created() {
+                console.log('2 created ',this.countdown, document.getElementById('app').innerHTML);
+                setInterval(() => {
+                    this.countdown -= 1;
+                },1000)
+            },
+            beforeMount() {
+                console.log('3 beforeMount ', document.getElementById('app').innerHTML);
+            },
+            mounted() {
+                console.log('4 mounted ', document.getElementById('app').innerHTML);
+            },
+            beforeUpdate() {
+                console.log('5 beforeUpdate ', document.getElementById('app').innerHTML);
+            },
+            updated() {
+                console.log('6 updated ', document.getElementById('app').innerHTML);
+            },
+            beforeUnmount() {
+                console.log('7 beforeUnmount ',this.countdown, document.getElementById('app').innerHTML);
+            },
+            unmounted() {
+                console.log('8 unmounted ',this.countdown, document.getElementById('app').innerHTML);
+            },
+            methods: {
+                changeH1Btn() {
+                    this.player += '👨‍🎓'
+                }
+            }
+        });
+        const vm = app.mount("#app");
+        console.log('vm: ',vm);
+        setTimeout(() => {
+            app.unmount();
+        }, 5000)
+        setTimeout(() => {
+            console.log('vm: ',vm);
+        }, 6000)
+    </script>
+</body>
+
+</html>

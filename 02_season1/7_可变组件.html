@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可变组件</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        * {
+            margin: 1rem;
+            font-size: 100px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        const app = Vue.createApp({
+            template: `
+            <my-input 
+                :setInput='setInputName2'
+            />
+            <my-game-list 
+                v-for='(item, index) of list'
+                v-bind:idx='index'
+                v-bind:item='item'
+            />`,
+            data() {
+                return {
+                    list: ['CSGO', '古剑奇谭'],
+                }
+            },
+            methods: {
+                setInputName2(value) {
+                    this.list.push(value);
+                }
+            },
+            mounted() {
+                console.log('外围组建模版渲染完成',document.getElementById('app').innerHTML);
+            },
+            created() {
+                console.log('外围组件实例创建完成',document.getElementById('app').innerHTML);
+            },
+ 
+            beforeUpdate() {
+                console.log('变化之前', this.list, document.getElementById('app').innerHTML);
+            },
+            updated() {
+                console.log('变化后', this.list, document.getElementById('app').innerHTML);
+
+            },
+        });
+
+
+        // 可变组件，根据接收的数据不同而做不同显示
+        // 列表项
+        app.component('my-game-list', {
+            props: ['item', 'idx'],
+            template: `
+            <li> 第{{idx + 1}}个：{{item}} </li>
+            `,
+            created() {
+                console.log(`列表项-${this.idx}-${this.item}-已创建完成`);
+
+            },
+            mounted() {
+                console.log(`列表项-${this.idx}-${this.item}-渲染已完成`);
+            },
+            updated() {
+                console.log('列表项-${this.idx}-${this.item}-已更新');
+            }
+        })
+
+        // 输入框和添加按钮
+        app.component('my-input', {
+            props: {
+                setInput: {
+                    type: Function
+                }
+            },
+            template: `
+            <input type="text" v-model="inputName"/>
+            <button v-on:click="addGameBtnClick">添加一项</button>
+            <hr/>
+            `,
+            data() {
+                return {
+                    inputName: "",
+                }
+            },
+            methods: {
+                addGameBtnClick() {
+                    if (this.inputName.trim()) {
+                        this.setInput(this.inputName)
+                        this.inputName = ""
+                    }
+
+                }
+            }
+        })
+
+        // 挂载，要卸载组件的定义后面
+        app.mount("#app");
+
+    </script>
+</body>
+
+</html>
