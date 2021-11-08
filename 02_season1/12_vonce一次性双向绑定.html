@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>9_生命周期</title>
+    <title>12_vonce一次性双向绑定</title>
     <script src="https://unpkg.com/vue@next"></script>
 </head>
 
@@ -16,14 +16,18 @@
         let app = Vue.createApp({
             data() {  // 定义数据层,即mvvm的model
                 return {
-                    player: 'tom',
+                    player: '<li>🧑</li>',
                     countdown: 5,
                 }
             },
             template: `
                 <div>
                     <button v-on:click="changeH1Btn">添加 {{countdown}}</button>
-                    <h1>{{player}}</h1>
+                    <ul 
+                        v-html="player" 
+                        v-once>
+                    </ul>
+                    <!-- 加了v-once,虽然data的数据会改变,但是不会被渲染到页面上 -->
                 </div>`,  // 定义模版层,即mvvm的view
             beforeCreate() {
                 // 这里访问不到this.countdown
@@ -32,10 +36,6 @@
             created() {
                 console.log('2 created ',this.countdown, document.getElementById('app').innerHTML);
                 
-                // 去掉注释,显示每次更新数据时的beforeUpdate和updated
-                // setInterval(() => {
-                //     this.countdown -= 1;
-                // },1000)
             },
             beforeMount() {
                 console.log('3 beforeMount ', document.getElementById('app').innerHTML);
@@ -51,24 +51,25 @@
             },
             beforeUnmount() {
                 console.log('7 beforeUnmount ',this.countdown, document.getElementById('app').innerHTML);
+                console.log('beforeUnmount ', this.player);
+
             },
             unmounted() {
                 console.log('8 unmounted ',this.countdown, document.getElementById('app').innerHTML);
+                console.log('unmounted ', this.player);
             },
             methods: {
                 changeH1Btn() {
-                    this.player += '👨‍🎓'
+                    this.player += `<li>${this.countdown}</li>`
                 }
             }
         });
         const vm = app.mount("#app");
         console.log('vm: ',vm);
-        setTimeout(() => {
-            app.unmount();
+        console.log(vm.player);
+        setInterval(() => {
+            app.unmount()
         }, 5000)
-        setTimeout(() => {
-            console.log('vm: ',vm);
-        }, 6000)
     </script>
 </body>
 

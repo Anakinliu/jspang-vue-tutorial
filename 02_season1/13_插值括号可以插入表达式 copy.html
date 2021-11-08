@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>13_插值括号可以插入表达式</title>
+    <script src="https://unpkg.com/vue@next"></script>
+
+</head>
+
+<body>
+    <div id="app"></div>
+
+    <script>
+        Vue.createApp({
+            template: `
+                <p> {{ show(value) }} </p>
+                <p> {{ show() }} </p>
+            `,
+            methods: {
+                show(value) {
+                    return value + '👩'
+                }
+            },
+            data() {
+                return {
+                    value: '123'
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+
+</html>
