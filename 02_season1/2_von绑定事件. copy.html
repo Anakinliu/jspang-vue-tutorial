@@ -43,7 +43,9 @@
                 <button v-on:click="byeBtnClick">玩家走了</button>
                 <div class="toptop">
                 <button v-on:click="startBtnClick">开始</button>
-                <button v-on:click="clearBtnClick">停止</button>
+                
+                <!-- v-on:可以使用@代替 -->
+                <button @click="clearBtnClick">停止</button>
                 </div>
                 </div>`,
             data() {

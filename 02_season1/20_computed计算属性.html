@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20_computed计算属性</title>
+    <script src="https://unpkg.com/vue@next"></script>
+
+</head>
+
+<body>
+    <!-- 计算属性要解决的问题: -->
+    <!-- 当计算属性依赖的内容发生变更时,才会执行重新计算 -->
+    <div id="app"></div>
+
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    message: 'mes',
+                    price: 10,
+                    count: 1,
+                }
+            },
+            // methods内的方法写在插入表达式中时,只要页面重新渲染,就会重新执行此方法.
+            methods: {
+                getTotal() {
+                    console.log('会导致重复调用此函数,问题就是只要页面重新渲染了，methods内方法都会重新执行');
+                    return Date();
+                },
+                changeDataBtn() {
+                    this.message += this.message;
+                    console.log(this.message);
+                }
+            },
+            template: `
+                <h2>{{ message }}</h2>
+                <h2>{{ getTotal() }}</h2>
+                <button @click="changeDataBtn">修改message变量</button>
+            `
+        }).mount("#app")
+    </script>
+</body>
+
+</html>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>13_插值括号可以插入表达式</title>
+    <title>15_动态绑定html属性</title>
     <script src="https://unpkg.com/vue@next"></script>
 
 </head>
@@ -21,10 +21,16 @@
                 <!-- 绑定单个属性为一个字符串值 -->
                 <input v-bind:type="inputType" />
                 <button v-on:click="changeTypeBtnClick">改变Type</button>
+
+                <p v-bind:[attr]="message"></p>
+                <!-- 浏览器显示为: <p data-src="sdfsdgretger"></p>
+ -->
             `,
             data() {
                 return {
-                    inputType: 'text'
+                    inputType: 'text',
+                    attr: 'data-src',
+                    message: 'sdfsdgretger'
                 }
             },
             methods: {

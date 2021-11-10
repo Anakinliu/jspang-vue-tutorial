@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>18_三元运算符做条件判断</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: greenyellow;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        Vue.createApp({
+            template: `
+                <div>
+                    <p v-bind:class="style === 'red'? style : 'green'">fgvdofhgvioldfjhg;ioljsdaf;ioswjf</p>
+                    <button @click="changeColorBtn">改变颜色</button>
+                </div>
+            `,
+            data() {
+                return {
+                    style: "red",
+                }
+            },
+            methods: {
+                changeColorBtn() {
+                    this.style = this.style === 'red'? 'green' : 'red'
+                }
+            }
+        }).mount("#app")
+    </script>
+</body>
+
+</html>
